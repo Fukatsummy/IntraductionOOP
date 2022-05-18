@@ -39,32 +39,47 @@ public:
 		this->y = 0;
 		cout << "Single argument constructor:" << this << endl;
 	}*/
-	Point(double x=0, double y=0)
+	Point(double x = 0, double y = 0)
 	{
 		this->x = x;
 		this->y = y;
-		cout << "Constructor:\t" << this << endl;
+		cout << "Constructor:\t\t" << this << endl;
 	}
 	Point(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
-		cout << "CopyConstructor:\t" << this<<endl;
+		cout << "CopyConstructor:\t" << this << endl;
 	}
 	~Point()
 	{
-		cout << "Destructor:\t" << this << endl;
+		cout << "Destructor:\t\t" << this << endl;
 	}
 
 	//       Operators:
-	Point operator=(const Point& other)
+
+	Point& operator=(const Point& other)
 	{
 		this->x = other.x;
 		this->y = other.y;
-		cout << "CopyAssignment:\t" << this << endl;
+		cout << "CopyAssignment: " << this << endl;
 		return *this;
 	}
 
+	Point& operator++()
+	{
+		x++;
+		y++;
+		return *this;
+	}
+
+	Point operator++(int)
+	{
+		Point old = *this;
+		x++;
+		y++;
+		return old;
+	}
 
 	//       Methods:
 	double distance(const Point& other)
@@ -76,7 +91,6 @@ public:
 		double distance = sqrt(x_distance*x_distance + y_distance * y_distance);
 		return distance;
 	}
-
 	void print()const
 	{
 		cout << "X = " << x << "\tY = " << y << endl;
@@ -91,12 +105,29 @@ double distance(Point A, Point B)
 	return distance;
 }
 
+Point operator+(const Point& left, const Point& right)
+{
+	Point result;
+	result.set_x(left.get_x() + right.get_x());
+	result.set_y(left.get_y() + right.get_y());
+	return result;
+}
+
+double operator-(const Point& left, const Point right)
+{
+	/*double x_distance = left.get_x() - right.get_x();
+	double y_distance = left.get_y() - right.get_y();
+	return sqrt(x_distance*x_distance + y_distance * y_distance);*/
+
+	return sqrt(pow(left.get_x() - right.get_x(), 2) + pow(left.get_y() - right.get_y(), 2)); //запись в одну строку
+}
+
 //#define STRUCT_POINT
 //#define CLASS_WORK
 //#define TASK_1
 //#define CONSTRUCTOR_CHECK
 //#define ASSIGNMENT_CHECK_1
-#define ASSIGNMENT_CHECK_2
+//#define ASSIGNMENT_CHECK_2
 
 void main()
 {
@@ -139,9 +170,9 @@ void main()
 	cout << delimiter;
 	cout << "Растояние от точки А до точки В: " << B.distance(A) << endl;
 	cout << delimiter;
-	cout << "Растояние между точками А и В: " << distance(A,B) << endl;
+	cout << "Растояние между точками А и В: " << distance(A, B) << endl;
 	cout << delimiter;
-	cout << "Растояние между точками А и В: " << distance(B,A) << endl;
+	cout << "Растояние между точками А и В: " << distance(B, A) << endl;
 #endif // CLASS_WORK
 
 #ifdef TASK_1
@@ -152,7 +183,7 @@ void main()
 	B.set_x(7);
 	B.set_y(8);
 	double distance;
-	cout << sqrt((A.get_x() - B.get_x())*(A.get_x() - B.get_x()) + (A.get_y() - B.get_y())*(A.get_y() - B.get_y()))<<endl;
+	cout << sqrt((A.get_x() - B.get_x())*(A.get_x() - B.get_x()) + (A.get_y() - B.get_y())*(A.get_y() - B.get_y())) << endl;
 	cout << Distance(A, B) << endl;
 #endif // TASK_1
 
@@ -198,10 +229,34 @@ void main()
 	A.print();
 #endif // ASSIGNMENT_CHECK_2
 
+	int a = 2;
+	int b = 3;
+	int c = a + b;
+
+
+
+	Point A(2, 3);
+	Point B(7, 8);
+	A.print();
+	B.print();
+	cout << delimiter;
+	Point C = A + B;
+	C.print();
+	cout << delimiter;
+	Point D = C++;
+	C.print();
+	D.print();
+	cout << delimiter;
+	C++;
+	C.print();
+	cout << delimiter;
+	cout << A - B << endl;//неявный вызов оператора - для объекта класса Point
+	cout << operator-(A, B) << endl;//явный вызов оператора
+
 
 }
 
-double Distance(const Point& A,const Point& B)
+double Distance(const Point& A, const Point& B)
 {
 	return sqrt((A.get_x() - B.get_x())*(A.get_x() - B.get_x()) + (A.get_y() - B.get_y())*(A.get_y() - B.get_y()));
 }
