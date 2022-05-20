@@ -233,8 +233,6 @@ void main()
 	int b = 3;
 	int c = a + b;
 
-
-
 	Point A(2, 3);
 	Point B(7, 8);
 	A.print();
@@ -252,8 +250,6 @@ void main()
 	cout << delimiter;
 	cout << A - B << endl;//неявный вызов оператора - для объекта класса Point
 	cout << operator-(A, B) << endl;//явный вызов оператора
-
-
 }
 
 double Distance(const Point& A, const Point& B)
