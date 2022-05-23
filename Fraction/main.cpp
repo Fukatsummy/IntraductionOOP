@@ -52,14 +52,14 @@ public:
 		this->integer = 0;
 		this->numerator = numerator;
 		this->set_denominator(denominator);
-		cout << "Constructor:\t" << this << endl;
+		cout << "Constructor:\t\t" << this << endl;
 	}
 	Fraction(int integer, int numerator, int denominator)
 	{
 		this->integer = integer;
 		this->numerator = numerator;
 		this->denominator = denominator;
-		cout << "Constructor:\t" << this << endl;
+		cout << "Constructor:\t\t" << this << endl;
 	}
 	Fraction(const Fraction& other)
 	{
@@ -70,7 +70,29 @@ public:
 	}
 	~Fraction()
 	{
-		cout << "Destructor:\t" << this << endl;
+		cout << "Destructor:\t\t" << this << endl;
+	}
+	Fraction& operator++()
+	{
+		integer++;
+		return *this;
+	}
+	Fraction operator++(int)
+	{
+		Fraction old=*this;
+		integer++;
+		return old;
+	}
+	Fraction operator--()
+	{
+		integer--;
+		return *this;
+	}
+	Fraction operator--(int)
+	{
+		Fraction old = *this;
+		integer--;
+		return old;
 	}
 	Fraction& operator=(const Fraction& other)
 	{
@@ -106,18 +128,18 @@ public:
 	}
 };
 
-Fraction operator*( Fraction left,  Fraction right)
+Fraction operator*(Fraction left, Fraction right)// Оператор умножения
 {
 	left.to_improper();
 	right.to_improper();
 	/*Fraction result;
 	result.set_numerator(left.get_numerator()*right.get_numerator());
 	result.set_denominator(left.get_denominator()*right.get_denominator());*/
-	
+
 	/*Fraction result
 	(
 		left.get_numerator()*right.get_numerator(),
-	    left.get_denominator()*right.get_denominator()
+		left.get_denominator()*right.get_denominator()
 	);
 	result.to_proper();
 	return result;*/
@@ -128,8 +150,55 @@ Fraction operator*( Fraction left,  Fraction right)
 		left.get_denominator()*right.get_denominator()
 	);
 }
+Fraction operator+(Fraction left, Fraction right)//Оператор сложения
+{
+	left.to_improper();
+	right.to_improper();
+	return Fraction
+	(
+		left.get_numerator()*right.get_denominator() + left.get_denominator()*right.get_numerator(),
+		left.get_denominator()*right.get_denominator()
+	);
+}
+Fraction operator-(Fraction left, Fraction right)//Оператор вычитания
+{
+	return Fraction
+	(
+		left.get_numerator()*right.get_denominator() - left.get_denominator()*right.get_numerator(),
+		left.get_denominator()*right.get_denominator()
+	);
+}
+Fraction operator/(Fraction left, Fraction right)//Оператор деления
+{
+	return Fraction
+	(
+		left.get_numerator()*right.get_denominator(),
+		left.get_denominator()*right.get_numerator()
+	);
+}
 
+//ostream& operator<<(ostream& out, const Fraction &fraction)//сохранение в файл
+//{
+//	out << fraction.get_numerator() << "/" << fraction.get_denominator();
+//	return out;
+//}
+//istream& operator>>(istream& in, const Fraction &fraction)//оператор извлечения(загрузка из файла(объекта))
+//{
+//	in >> fraction.get_numerator();
+//	in >> fraction.get_denominator();
+//	return in;
+//}
+bool operator>(const Fraction left, const Fraction right)
+{
+	return(left.get_numerator() / right.get_numerator() > (left.get_denominator() / right.get_denominator()));
+}
+bool operator==(const Fraction left, const Fraction right)
+{
+	return (left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator());
+}
 //#define CONSTRUCTOR_CHECK
+//#define CONSTRUCTOR_CHECK2
+#define CONSTRUCTOR_CHECK3
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -155,6 +224,7 @@ void main()
 	A.print();
 #endif // CONSTRUCTOR_CHECK
 
+#ifdef CONSTRUCTOR_CHECK2
 	Fraction A(2, 3, 4);
 	Fraction B(19, 5);
 	A.print();
@@ -162,4 +232,43 @@ void main()
 
 	Fraction C = A * B;
 	C.print();
+#endif // CONSTRUCTOR_CHECK2
+
+#ifdef CONSTRUCTOR_CHECK3
+	Fraction A(2, 3);
+	Fraction B(4, 5);
+	A.print();
+	B.print();
+
+	Fraction C = A + B;//Сумма дробей
+	C.print();
+
+	Fraction D = A - B;//Вычитание
+	D.print();
+
+	Fraction E = A / B;//Деление
+	E.print();
+
+	Fraction F = C++;//Инкримент
+	C.print();
+	F.print();
+
+	Fraction G = D--;//Декримент
+	D.print();
+	G.print();
+
+	//ostream&(Fraction);
+	//istream&(Fraction);
+
+	Fraction I = A > B;
+	A.print();
+	B.print();
+	cout <<
+
+	Fraction H = A == B;
+	A.print();
+	B.print();
+#endif // CONSTRUCTOR_CHECK3
+
+
 }
