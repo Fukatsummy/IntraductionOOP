@@ -66,6 +66,13 @@ public:
 		this->denominator = denominator;
 		cout << "Constructor:\t\t" << this << endl;
 	}
+	Fraction(double decimal)//преобразование из десятичной дроби
+	{
+		integer = decimal;
+		denominator = 10000;
+		decimal -= integer;
+		numerator = decimal * denominator;
+	}
 	Fraction(const Fraction& other)
 	{
 		this->integer = other.integer;
@@ -84,7 +91,7 @@ public:
 	}
 	Fraction operator++(int)
 	{
-		Fraction old=*this;
+		Fraction old = *this;
 		integer++;
 		return old;
 	}
@@ -111,6 +118,17 @@ public:
 	{
 		return *this = *this*other;
 	}
+	//       Type-cast operators
+	explicit operator int()const
+	{
+		return integer;
+	}
+	operator double()const //перегружает(преобразовывает) инт в дабл
+	{
+		return integer + (double)numerator / denominator;
+	}
+	
+	//        Methods
 	Fraction& to_proper()
 	{
 		//переодит дробь в правильную(выделяет целую часть)
@@ -134,6 +152,7 @@ public:
 		inverted.denominator = buffer;
 		return inverted;
 	}
+
 	void print()const
 	{
 		if (integer)cout << integer;
@@ -145,6 +164,18 @@ public:
 		}
 		if (integer == 0 && numerator == 0)cout << 0;
 		cout << endl;
+	}
+	ostream& print(ostream& os)const
+	{
+		if (integer)os << integer;
+		if (numerator)
+		{
+			if (integer)cout << "(";
+			os << numerator << "/" << denominator;
+			if (integer)os << ")";
+		}
+		if (integer == 0 && numerator == 0)os << 0;
+		return os;
 	}
 };
 
@@ -218,6 +249,7 @@ Fraction operator/(Fraction left, Fraction right)//Оператор делени
 //	in >> fraction.get_denominator();
 //	return in;
 //}
+#ifdef FULL_CONPARISON
 bool operator>(Fraction left, Fraction right)
 {
 	return left.to_improper().get_numerator()*right.get_denominator() >
@@ -238,9 +270,11 @@ bool operator==(Fraction left, Fraction right)
 	else
 		return false;*/
 	return left.get_numerator()*right.get_denominator() == right.get_numerator()*left.get_denominator();
-	
+
 	//return (left.get_numerator() == right.get_numerator() && left.get_denominator() == right.get_denominator());
-}bool operator !=(const Fraction left, const Fraction right)
+}
+
+bool operator !=(const Fraction left, const Fraction right)
 {
 	return !(left == right);
 }
@@ -252,10 +286,37 @@ bool operator >=(const Fraction& left, const Fraction& right)
 {
 	return !(left < right);
 }
+bool operator ==(const Fraction& left, const Fraction& right)
+{
+	return (double)left == right;
+}
+#endif // FULL_CONPARISON
+
+ostream& operator <<(ostream& os, const Fraction& obj)
+{
+	/*if (obj.get_integer())os << obj.get_integer;
+	if (obj.get_numerator)
+	{
+		if (obj.get_integer)os << "(";
+		os << obj.get_numerator << "/" << obj.get_denominator;
+		if (obj.get_integer)os << ")";
+	}
+	if (obj.get_integer == 0 && obj.get_numerator == 0)os << 0;
+	return os;*/
+	return obj.print(os);
+}
+istream& operator>>(istream& in, const Fraction& obj)
+{
+
+	return in;
+}
 
 //#define CONSTRUCTOR_CHECK
 //#define CONSTRUCTOR_CHECK2
-#define CONSTRUCTOR_CHECK3
+//#define CONSTRUCTOR_CHECK3
+//#define CONVERSIONS_FROM_OTHER_TO_CLASS
+#define FULL_CONPARISON
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -321,20 +382,39 @@ void main()
 
 	Fraction I = A > B;
 	I.print();
-	
+
 	//cout ;
 
 	Fraction H = A == B;
 	H.print();
-	
+
 	cout << (Fraction(1, 2) == Fraction(5, 10)) << endl;
 	cout << (Fraction(1, 2) != Fraction(5, 10)) << endl;
 	cout << (Fraction(1, 2) > Fraction(5, 10)) << endl;
 	cout << (Fraction(1, 2) < Fraction(5, 10)) << endl;
 	cout << (Fraction(1, 2) <= Fraction(5, 10)) << endl;
 	cout << (Fraction(1, 2) >= Fraction(5, 10)) << endl;
-	
+
 #endif // CONSTRUCTOR_CHECK3
 
+#ifdef CONVERSIONS_FROM_OTHER_TO_CLASS
+	/*Fraction A(1, 2);
+cout << A<<endl;
+A.print();*/
 
+	Fraction B;
+	B = Fraction(8);
+	cout << B << endl;
+#endif // CONVERSIONS_FROM_OTHER_TO_CLASS
+
+	Fraction A(2, 3, 4);
+	int a = (int)A;
+	cout << a << endl;
+	double b = A;
+	cout << b << endl;
+
+	cout << (Fraction(1, 2) == Fraction(5, 10)) << endl;
+
+	Fraction E = 2.75;
+	cout << E << endl;
 }
