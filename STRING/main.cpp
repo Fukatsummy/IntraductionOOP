@@ -1,4 +1,4 @@
-#include<iostream>
+ï»¿#include<iostream>
 using namespace std;
 
 class String
@@ -15,33 +15,34 @@ public:
 	{
 		return str;
 	}
-	void set_size(int size)
+	/*void set_size(int size)
 	{
 		this->size = size;
 	}
 	void set_str(char* str)
 	{
 		this->str = str;
-	}
+	}*/
 	//          CONSTRUCTORS:
-	String(int size)//Ñòðîêà ñ çàäàíûì ðàçìåðîì
+	String(int size= 80)//Ð¡Ñ‚Ñ€Ð¾ÐºÐ° Ñ Ð·Ð°Ð´Ð°Ð½Ñ‹Ð¼ Ñ€Ð°Ð·Ð¼ÐµÑ€Ð¾Ð¼
 	{
-		this->size = size = 80;
+		this->size = size ;
 		this->str = new char[size] {};
 		cout << "DefaultConstructor:\t" << this << endl;
 	}
-	String(const char* str)//Êîíñòðóêòîð
+	String(const char* str)//ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€
 	{
-		this->size = Length(str) + 1;
+		this->size = strlen(str) + 1;
 		this->str = new char[size] {};
+		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other)//Êîíñòðóêòîð êîïèðîâàíèÿ
+	String(const String& other)//ÐšÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€ ÐºÐ¾Ð¿Ð¸Ñ€Ð¾Ð²Ð°Ð½Ð¸Ñ
 	{
-		/*this->size = other.size;
+		this->size = other.size;
 		this->str = new char[size] {};
-		this
-		cout << "CopyConstructor:" << this << endl;*/
+		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
+		cout << "CopyConstructor:" << this << endl;
 	}
 	~String()
 	{
@@ -63,19 +64,19 @@ void main()
 {
 	setlocale(LC_ALL, "");
 
-	String str1;//Ïî÷åìó îøèáêà? ïèøåò íå íàéäåí êîíñòðóêòîð ïî óìîë÷àíèþ
-	str.print();
+	String str1;//ÐŸÐ¾Ñ‡ÐµÐ¼Ñƒ Ð¾ÑˆÐ¸Ð±ÐºÐ°? Ð¿Ð¸ÑˆÐµÑ‚ Ð½Ðµ Ð½Ð°Ð¹Ð´ÐµÐ½ ÐºÐ¾Ð½ÑÑ‚Ñ€ÑƒÐºÑ‚Ð¾Ñ€ Ð¿Ð¾ ÑƒÐ¼Ð¾Ð»Ñ‡Ð°Ð½Ð¸ÑŽ
+	str1.print();
 
 	String str3 = "Hello";
-	str.print();
+	str3.print();
 
 	String str4 = "World";
-	str.print();
+	str4.print();
 
 	String str5 = str3 + str4;
 	cout << str5 << endl;
 
-	cout << "Ââåäèòå ñòðîêó: "; cin >> str1;
+	cout << "Ð’Ð²ÐµÐ´Ð¸Ñ‚Ðµ ÑÑ‚Ñ€Ð¾ÐºÑƒ: "; cin >> str1;
 	cout << str1 << endl;
 
 }
