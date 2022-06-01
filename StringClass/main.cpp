@@ -1,6 +1,9 @@
 ﻿#include<iostream>
 using namespace std;
 
+class String;
+String operator+(const String& left, const String& right);
+
 class String
 {
 	int size;  //Размер строки в байтах 
@@ -42,6 +45,15 @@ public:
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:" << this << endl;
 	}
+	String(String&& other)
+	{
+		//MoveConstructor выполняем поверхностное копирование(ShellowCopy)
+		this->size = other.size;
+		this->str = other.str; //Копируем адрес памяти, принадлежащий другому объекту
+		other.size = 0;
+		other.str = nullptr;//зануляем адрес памяти в другом объекте, чтобы эту память не удалил диструктор
+		cout << "MoveConstructor:\t" << this << endl;
+	}
 	~String()
 	{
 		delete[] this->str;
@@ -60,13 +72,15 @@ public:
 		cout << "CopyAssignment" << this << endl;
 		return *this;
 	}
-	const char& operator[](int i)const
+	String& operator=(String&& other)
 	{
-		return str[i];
-	}
-	char& operator[](int i)
-	{
-		return str[i];
+		delete[] this->str;
+		this->size = other.size;
+		this->str = other.str;
+		other.size = 0;
+		other.str=nullptr;
+		cout << "MoveAssignment:\t" << this << endl;
+		return *this;
 	}
 	String operator+=(const String& other)
 	{
@@ -80,23 +94,26 @@ public:
 	{
 		return str[i];
 	}
-	
+
 	//      Metods
 	void print()const
 	{
 		cout << "Size:\t" << size << endl;
 		cout << "Str:\t" << str << endl;
 	}
-	ostream& operator<<(ostream& os, const String& obj)
-	{
-		return os << obj.get_str();
-	}
-	istream& operator>>(istream& is, String obj)
-	{
-		//////
-		return is;
-	}
 };
+ostream& operator<<(ostream& os, const String& obj)
+{
+	return os << obj.get_str();
+}
+istream& operator>>(istream& is, String obj)
+{
+	const int SIZE = 256;
+	char buffer[SIZE] = {};
+	cin.getline(buffer, SIZE);
+	obj = buffer;
+	return is;
+}
 
 String operator+(const String& left, const String& right)
 {
@@ -142,14 +159,17 @@ void main()
 
 	String str1 = "Hello";
 	String str2("World");
-	String str3 = str1 + " " + str2;
-	str3.print();
+	//String str3 = str1 + str2;//Mova Constructor
+	//str3.print();
+	String str3;
+	str3 = str1 + str2;
+	cout << str3 << endl;
+	
+	//cout << "Введите строку: "; cin >> str1;
+	//cout << str1 << endl;
 
-	cout << "Введите строку: "; cin >> str1;
-	cout << str1 << endl;
-
-	String str1 = "Hello";
-	String str2("World");
+	//String str1 = "Hello";
+	//String str2("World");
 	str1 += str2;
 	cout << str1 << endl;
 }
