@@ -14,11 +14,11 @@ public:
 	{
 		return str;
 	}
-	 char* get_str()
+	char* get_str()
 	{
 		return str;
 	}
-	
+
 	//      Constructors
 	explicit String(int size = 80)
 	{
@@ -68,11 +68,33 @@ public:
 	{
 		return str[i];
 	}
+	String operator+=(const String& other)
+	{
+		return *this = *this + other;
+	}
+	const char& operator[](int i)const
+	{
+		return str[i];
+	}
+	char& operator[](int i)
+	{
+		return str[i];
+	}
+	
 	//      Metods
 	void print()const
 	{
 		cout << "Size:\t" << size << endl;
 		cout << "Str:\t" << str << endl;
+	}
+	ostream& operator<<(ostream& os, const String& obj)
+	{
+		return os << obj.get_str();
+	}
+	istream& operator>>(istream& is, String obj)
+	{
+		//////
+		return is;
 	}
 };
 
@@ -82,20 +104,16 @@ String operator+(const String& left, const String& right)
 	//Левую строку копируем соответственно
 	for (int i = 0; i < left.get_size(); i++)
 		cat[i] = left[i];
-		//cat.get_str()[i] = left.get_str()[i];
-	
-	// Правую строку копируем со смещением вправо на размер левой строки
+	//cat.get_str()[i] = left.get_str()[i];
+
+// Правую строку копируем со смещением вправо на размер левой строки
 	for (int i = 0; i < right.get_size(); i++)
 		cat[i + left.get_size() - 1] = right[i];
-		//cat.get_str()[i + left.get_size() - 1] = right.get_str()[i];
-	
+	//cat.get_str()[i + left.get_size() - 1] = right.get_str()[i];
+
 	return cat;
 }
 
-ostream& operator<<(ostream& os, const String& obj)
-{
-	return os << obj.get_str();
-}
 
 //#define CONSTRUCTOR_CHECK
 
@@ -124,9 +142,14 @@ void main()
 
 	String str1 = "Hello";
 	String str2("World");
-	String str3 = str1 +" " + str2;
+	String str3 = str1 + " " + str2;
 	str3.print();
 
 	cout << "Введите строку: "; cin >> str1;
+	cout << str1 << endl;
+
+	String str1 = "Hello";
+	String str2("World");
+	str1 += str2;
 	cout << str1 << endl;
 }
