@@ -29,20 +29,15 @@ public:
 		//this->str = new char[size] {};
 		cout << "DefConstructor:\t" << this << endl;
 	}
-	String(const char* str):size(strlen(str)+1),str(new char[size] {})
+	String(const char* str):String(strlen(str)+1)
 	{
-		//this->size = strlen(str) + 1;
-		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other):size(other.size), str(new char[size]{})
+	String(const String& other):String(other.str)
 	{
-		//this->size = other.size;
 		//Должен выполнять DeepCopy(Побитовое копирование)
 		// т.е выделить новую память и скопировать в неё содержимое др объектa
-		//this->str = new char[size] {};
-		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:" << this << endl;
 	}
 	String(String&& other):size(other.size),str(other.str)
@@ -133,7 +128,7 @@ String operator+(const String& left, const String& right)
 
 
 //#define CONSTRUCTOR_CHECK
-//#define MOVE_METODS_CHECK
+#define MOVE_METODS_CHECK
 //#define COLLING_CNSTRUCTOR
 
 void main()
@@ -183,9 +178,11 @@ void main()
 	String str2(55);
 	String str3 = "Hello";
 	String str4 = str3;
+
 	String str5;
 	str5 = str4;
 	String str6();
+	str7.print();
 #endif // COLLING_CONSTRUCTOR
 
 
