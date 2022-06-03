@@ -79,7 +79,7 @@ public:
 		this->str = other.str;
 		other.size = 0;
 		other.str=nullptr;
-		cout << "MoveAssignment:\t" << this << endl;
+		cout << "MoveAssignment:" << this << endl;
 		return *this;
 	}
 	String operator+=(const String& other)
@@ -133,6 +133,7 @@ String operator+(const String& left, const String& right)
 
 
 //#define CONSTRUCTOR_CHECK
+//#defane MOVE_METODS_CHECK
 
 void main()
 {
@@ -157,6 +158,7 @@ void main()
 	str5.print();
 #endif // CONSTRUCTOR_CHECK
 
+#ifdef MOVE_METODS_CHECK
 	String str1 = "Hello";
 	String str2("World");
 	//String str3 = str1 + str2;//Mova Constructor
@@ -164,7 +166,7 @@ void main()
 	String str3;
 	str3 = str1 + str2;
 	cout << str3 << endl;
-	
+
 	//cout << "Введите строку: "; cin >> str1;
 	//cout << str1 << endl;
 
@@ -172,4 +174,7 @@ void main()
 	//String str2("World");
 	str1 += str2;
 	cout << str1 << endl;
+#endif // MOVE_METODS_CHECK
+
+
 }

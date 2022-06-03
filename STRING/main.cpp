@@ -64,6 +64,7 @@ void main()
 {
 	setlocale(LC_ALL, "");
 
+#ifdef MOVE_METODS_CHECK
 	String str1;//Почему ошибка? пишет не найден конструктор по умолчанию
 	str1.print();
 
@@ -78,5 +79,7 @@ void main()
 
 	cout << "Введите строку: "; cin >> str1;
 	cout << str1 << endl;
+#endif // MOVE_METODS_CHECK
+
 
 }
