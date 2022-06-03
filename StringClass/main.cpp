@@ -23,33 +23,33 @@ public:
 	}
 
 	//      Constructors
-	explicit String(int size = 80)
+	explicit String(int size = 80):size(size),str(new char[size]{})
 	{
-		this->size = size;
-		this->str = new char[size] {};
+		//this->size = size;
+		//this->str = new char[size] {};
 		cout << "DefConstructor:\t" << this << endl;
 	}
-	String(const char* str)
+	String(const char* str):size(strlen(str)+1),str(new char[size] {})
 	{
-		this->size = strlen(str) + 1;
-		this->str = new char[size] {};
+		//this->size = strlen(str) + 1;
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = str[i];
 		cout << "Constructor:\t" << this << endl;
 	}
-	String(const String& other)
+	String(const String& other):size(other.size), str(new char[size]{})
 	{
-		this->size = other.size;
+		//this->size = other.size;
 		//Должен выполнять DeepCopy(Побитовое копирование)
 		// т.е выделить новую память и скопировать в неё содержимое др объектa
-		this->str = new char[size] {};
+		//this->str = new char[size] {};
 		for (int i = 0; i < size; i++)this->str[i] = other.str[i];
 		cout << "CopyConstructor:" << this << endl;
 	}
-	String(String&& other)
+	String(String&& other):size(other.size),str(other.str)
 	{
 		//MoveConstructor выполняем поверхностное копирование(ShellowCopy)
-		this->size = other.size;
-		this->str = other.str; //Копируем адрес памяти, принадлежащий другому объекту
+		//this->size = other.size;
+		//this->str = other.str; //Копируем адрес памяти, принадлежащий другому объекту
 		other.size = 0;
 		other.str = nullptr;//зануляем адрес памяти в другом объекте, чтобы эту память не удалил диструктор
 		cout << "MoveConstructor:\t" << this << endl;
@@ -133,7 +133,8 @@ String operator+(const String& left, const String& right)
 
 
 //#define CONSTRUCTOR_CHECK
-//#defane MOVE_METODS_CHECK
+//#define MOVE_METODS_CHECK
+//#define COLLING_CNSTRUCTOR
 
 void main()
 {
@@ -175,6 +176,18 @@ void main()
 	str1 += str2;
 	cout << str1 << endl;
 #endif // MOVE_METODS_CHECK
+
+
+#ifdef COLLING_CONSTRUCTOR
+	String str1;
+	String str2(55);
+	String str3 = "Hello";
+	String str4 = str3;
+	String str5;
+	str5 = str4;
+	String str6();
+#endif // COLLING_CONSTRUCTOR
+
 
 
 }
